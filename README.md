@@ -1,10 +1,15 @@
 # Fill Block Range
 
-Fills in a range of letters, numbers, or "Battleship-like" letter-number combinations.
+
+[![NPM Version](https://img.shields.io/npm/v/%40cityssm%2Ffill-block-range)](https://www.npmjs.com/package/@cityssm/fill-block-range)
+[![DeepSource](https://app.deepsource.com/gh/cityssm/node-fill-block-range.svg/?label=active+issues&show_trend=true&token=Rs2LYe8H3u8yXkNAZfQ9MkT7)](https://app.deepsource.com/gh/cityssm/node-fill-block-range/)
+[![codecov](https://codecov.io/gh/cityssm/node-fill-block-range/graph/badge.svg?token=ZJMRSBF945)](https://codecov.io/gh/cityssm/node-fill-block-range)
+
+**Fills in a range of letters, numbers, or "Battleship-like" letter-number combinations.**
 
 ## Installation
 
-```bash
+```sh
 npm install @cityssm/fill-block-range
 ```
 
@@ -19,7 +24,7 @@ console.log(fillBlockRange('01', '10'))
 console.log(fillBlockRange('A1', 'C3'))
 // => ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3']
 
-console.log('5A', '5D')
+console.log(fillBlockRange('5A', '5D'))
 // => ['5A', '5B', '5C', '5D']
 ```
 
@@ -35,4 +40,4 @@ This package is made possible using two amazing packages.
 [**Sunrise Cemetery Management System (CMS)**](https://cityssm.github.io/sunrise-cms/)
 
 - A web-based application to assist cemetery managers with managing their cemetery records.
-- Used to quickly generate blocks of burial sites.
+- Uses `@cityssm/fill-block-range` to quickly generate blocks of burial sites.
