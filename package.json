@@ -1,7 +1,7 @@
 {
   "name": "@cityssm/fill-block-range",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Fills in a range of letters, numbers, or \"Battleship-like\" letter-number combinations.",
   "exports": "./index.js",
   "scripts": {
