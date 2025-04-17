@@ -5,7 +5,8 @@
   "description": "Fills in a range of letters, numbers, or \"Battleship-like\" letter-number combinations.",
   "exports": "./index.js",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "coverage": "c8 node --test"
   },
   "repository": {
     "type": "git",
