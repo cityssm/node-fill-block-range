@@ -15,6 +15,9 @@ const rangesToTest = [
 ]
 
 const errorRangesToTest = [
+  // invalid types
+  [['x'], 10],
+  [1, {}],
   // different types
   [1, '10'],
   ['1', 10],
