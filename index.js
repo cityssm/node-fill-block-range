@@ -2,19 +2,10 @@ import fill from 'fill-range';
 import cartesianProduct from 'just-cartesian-product';
 const numberRegex = /^\d+$/;
 export default function fillBlockRange(from, to) {
-    if (typeof from !== 'number' && typeof from !== 'string') {
-        throw new TypeError('"from" must be a number or string.');
-    }
-    if (typeof to !== 'number' && typeof to !== 'string') {
-        throw new TypeError('"to" must be a number or string.');
-    }
-    if (typeof to !== typeof from) {
-        throw new TypeError('"from" and "to" must be the same type.');
-    }
     if (typeof from === 'number' && typeof to === 'number') {
         return fill(from, to, { step: 1 });
     }
-    if (typeof from === 'string' && typeof to === 'string') {
+    else if (typeof from === 'string' && typeof to === 'string') {
         const fromParts = splitBoundIntoParts(from);
         const toParts = splitBoundIntoParts(to);
         if (fromParts.length !== toParts.length) {
@@ -29,7 +20,7 @@ export default function fillBlockRange(from, to) {
         const blockArray = blockArrays.map((block) => block.join(''));
         return blockArray;
     }
-    throw new TypeError('Invalid range bounds.');
+    throw new TypeError('"from" and "to" must be numbers or strings, and of the same type.');
 }
 function splitBoundIntoParts(bound) {
     const parts = [];

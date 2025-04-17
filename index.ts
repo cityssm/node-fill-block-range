@@ -14,36 +14,18 @@ export default function fillBlockRange<T extends number | string>(
   from: T,
   to: T
 ): T[] {
-  /*
-   * Validate the range bounds.
-   */
-
-  if (typeof from !== 'number' && typeof from !== 'string') {
-    throw new TypeError('"from" must be a number or string.')
-  }
-
-  if (typeof to !== 'number' && typeof to !== 'string') {
-    throw new TypeError('"to" must be a number or string.')
-  }
-
-  if (typeof to !== typeof from) {
-    throw new TypeError('"from" and "to" must be the same type.')
-  }
-
-  /*
-   * If the range bounds are numbers, use fill-range to generate the range.
-   */
-
   if (typeof from === 'number' && typeof to === 'number') {
+    /*
+     * If the range bounds are numbers, use fill-range to generate the range.
+     */
+
     return fill(from, to, { step: 1 })
-  }
+  } else if (typeof from === 'string' && typeof to === 'string') {
+    /*
+     * If the range bounds are strings, split the strings into parts and
+     * generate the range for each part.
+     */
 
-  /*
-   * If the range bounds are strings, split the strings into parts and
-   * generate the range for each part.
-   */
-
-  if (typeof from === 'string' && typeof to === 'string') {
     const fromParts = splitBoundIntoParts(from)
     const toParts = splitBoundIntoParts(to)
 
@@ -67,7 +49,9 @@ export default function fillBlockRange<T extends number | string>(
     return blockArray as unknown as T[]
   }
 
-  throw new TypeError('Invalid range bounds.')
+  throw new TypeError(
+    '"from" and "to" must be numbers or strings, and of the same type.'
+  )
 }
 
 function splitBoundIntoParts(bound: string): string[] {
