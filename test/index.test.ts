@@ -43,7 +43,8 @@ await describe('@cityssm/fill-block-range', async () => {
 
   await describe('error range tests', async () => {
     for (const [from, to] of errorRangesToTest) {
-      await it(`should throw an error for range from ${from} to ${to}`, () => {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
+      await it(`should throw an error for range from ${from.toString()} to ${to.toString()}`, () => {
         // eslint-disable-next-line max-nested-callbacks
         assert.throws(() => {
           const successfulResult = fillBlockRange(from, to)

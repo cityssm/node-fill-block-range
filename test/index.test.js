@@ -35,7 +35,7 @@ await describe('@cityssm/fill-block-range', async () => {
     });
     await describe('error range tests', async () => {
         for (const [from, to] of errorRangesToTest) {
-            await it(`should throw an error for range from ${from} to ${to}`, () => {
+            await it(`should throw an error for range from ${from.toString()} to ${to.toString()}`, () => {
                 assert.throws(() => {
                     const successfulResult = fillBlockRange(from, to);
                     console.log(successfulResult);
