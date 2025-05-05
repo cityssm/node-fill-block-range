@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/fill-range": "^7.0.3",
-    "@types/node": "^22.14.1",
+    "@types/node": "^22.15.6",
     "eslint-config-cityssm": "^22.2.2",
     "prettier-config-cityssm": "^1.0.0"
   }
