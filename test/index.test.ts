@@ -1,3 +1,6 @@
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
+/* eslint-disable max-nested-callbacks */
+
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 
@@ -38,7 +41,7 @@ await describe('@cityssm/fill-block-range', async () => {
         const result = fillBlockRange(from, to)
         assert.strictEqual(result[0], from)
         assert.strictEqual(result.at(-1), to)
-        
+
         for (const block of result) {
           assert.match(block.toString(), /^[A-Z0-9]+$/i)
         }
@@ -50,7 +53,6 @@ await describe('@cityssm/fill-block-range', async () => {
     for (const [from, to] of errorRangesToTest) {
       // eslint-disable-next-line @typescript-eslint/no-base-to-string
       await it(`should throw an error for range from ${from.toString()} to ${to.toString()}`, () => {
-        // eslint-disable-next-line max-nested-callbacks
         assert.throws(() => {
           const successfulResult = fillBlockRange(from, to)
           // eslint-disable-next-line no-console
@@ -58,5 +60,11 @@ await describe('@cityssm/fill-block-range', async () => {
         }, TypeError)
       })
     }
+
+    await it('should throw a RangeError if the range exceeds the limit', () => {
+      assert.throws(() => {
+        fillBlockRange('1', '10', { limit: 5 })
+      }, RangeError)
+    })
   })
 })

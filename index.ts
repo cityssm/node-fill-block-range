@@ -10,11 +10,14 @@ const alphaNumericRegex = /^[a-z0-9]*$/i
  * alphanumeric characters. The range is inclusive of the start and end values.
  * @param from - The start of the range.
  * @param to - The end of the range.
+ * @param options - Optional options object.
+ * @param options.limit - The maximum number of elements to generate in the range. If the range will generate more than this number of elements, an error will be thrown.
  * @returns An array of strings or numbers representing the range.
  */
 export default function fillBlockRange<T extends number | string>(
   from: T,
-  to: T
+  to: T,
+  options?: { limit?: number }
 ): T[] {
   if (typeof from === 'number' && typeof to === 'number') {
     /*
@@ -52,6 +55,15 @@ export default function fillBlockRange<T extends number | string>(
       ranges.push(range)
     }
 
+    if (options?.limit !== undefined) {
+      const rangeLength = calculateRangeLength(ranges)
+      if (rangeLength > options.limit) {
+        throw new RangeError(
+          `Range exceeds limit of ${options.limit} elements.`
+        )
+      }
+    }
+
     const blockArrays = cartesianProduct(ranges)
 
     const blockArray = blockArrays.map((block) => block.join(''))
@@ -63,6 +75,16 @@ export default function fillBlockRange<T extends number | string>(
   throw new TypeError(
     '"from" and "to" must be numbers or strings, and of the same type.'
   )
+}
+
+function calculateRangeLength(ranges: string[][]): number {
+  let length = 1
+
+  for (const range of ranges) {
+    length *= Math.max(range.length, 1)
+  }
+
+  return length
 }
 
 function splitBoundIntoParts(bound: string): string[] {

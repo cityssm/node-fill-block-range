@@ -2,7 +2,7 @@ import fill from 'fill-range';
 import cartesianProduct from 'just-cartesian-product';
 const numberRegex = /^\d+$/;
 const alphaNumericRegex = /^[a-z0-9]*$/i;
-export default function fillBlockRange(from, to) {
+export default function fillBlockRange(from, to, options) {
     if (typeof from === 'number' && typeof to === 'number') {
         return fill(from, to, { step: 1 });
     }
@@ -21,11 +21,24 @@ export default function fillBlockRange(from, to) {
             }
             ranges.push(range);
         }
+        if (options?.limit !== undefined) {
+            const rangeLength = calculateRangeLength(ranges);
+            if (rangeLength > options.limit) {
+                throw new RangeError(`Range exceeds limit of ${options.limit} elements.`);
+            }
+        }
         const blockArrays = cartesianProduct(ranges);
         const blockArray = blockArrays.map((block) => block.join(''));
         return blockArray;
     }
     throw new TypeError('"from" and "to" must be numbers or strings, and of the same type.');
+}
+function calculateRangeLength(ranges) {
+    let length = 1;
+    for (const range of ranges) {
+        length *= Math.max(range.length, 1);
+    }
+    return length;
 }
 function splitBoundIntoParts(bound) {
     const parts = [];

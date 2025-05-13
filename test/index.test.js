@@ -46,5 +46,10 @@ await describe('@cityssm/fill-block-range', async () => {
                 }, TypeError);
             });
         }
+        await it('should throw a RangeError if the range exceeds the limit', () => {
+            assert.throws(() => {
+                fillBlockRange('1', '10', { limit: 5 });
+            }, RangeError);
+        });
     });
 });
