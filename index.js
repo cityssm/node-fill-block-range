@@ -4,6 +4,9 @@ const numberRegex = /^\d+$/;
 const alphaNumericRegex = /^[a-z0-9]*$/i;
 export default function fillBlockRange(from, to, options) {
     if (typeof from === 'number' && typeof to === 'number') {
+        if (options?.limit !== undefined && Math.abs(from - to) > options.limit) {
+            throw new RangeError(`Range exceeds limit of ${options.limit} elements.`);
+        }
         return fill(from, to, { step: 1 });
     }
     else if (typeof from === 'string' && typeof to === 'string') {
@@ -18,6 +21,9 @@ export default function fillBlockRange(from, to, options) {
             let range = fill(fromPart, toPart);
             if (alphaNumericRegex.test(fromPart) && alphaNumericRegex.test(toPart)) {
                 range = range.filter((possibleSegment) => alphaNumericRegex.test(possibleSegment));
+            }
+            if (options?.limit !== undefined && range.length > options.limit) {
+                throw new RangeError(`Range exceeds limit of ${options.limit} elements.`);
             }
             ranges.push(range);
         }

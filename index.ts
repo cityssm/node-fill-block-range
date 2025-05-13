@@ -24,6 +24,10 @@ export default function fillBlockRange<T extends number | string>(
      * If the range bounds are numbers, use fill-range to generate the range.
      */
 
+    if (options?.limit !== undefined && Math.abs(from - to) > options.limit) {
+      throw new RangeError(`Range exceeds limit of ${options.limit} elements.`)
+    }
+
     return fill(from, to, { step: 1 })
   } else if (typeof from === 'string' && typeof to === 'string') {
     /*
@@ -49,6 +53,12 @@ export default function fillBlockRange<T extends number | string>(
       if (alphaNumericRegex.test(fromPart) && alphaNumericRegex.test(toPart)) {
         range = range.filter((possibleSegment) =>
           alphaNumericRegex.test(possibleSegment)
+        )
+      }
+
+      if (options?.limit !== undefined && range.length > options.limit) {
+        throw new RangeError(
+          `Range exceeds limit of ${options.limit} elements.`
         )
       }
 
