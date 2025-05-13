@@ -54,7 +54,10 @@ await describe('@cityssm/fill-block-range', async () => {
                 fillBlockRange(1, 10, { limit: 5 });
             }, RangeError);
             assert.throws(() => {
-                fillBlockRange('AA', 'ZZ', { limit: 5 });
+                fillBlockRange('A', 'Z', { limit: 5 });
+            }, RangeError);
+            assert.throws(() => {
+                fillBlockRange('AA', 'ZZ', { limit: 50 });
             }, RangeError);
         });
     });
