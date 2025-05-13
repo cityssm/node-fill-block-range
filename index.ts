@@ -3,6 +3,8 @@ import cartesianProduct from 'just-cartesian-product'
 
 const numberRegex = /^\d+$/
 
+const alphaNumericRegex = /^[a-z0-9]*$/i
+
 /**
  * Fills a range of numbers or strings, where the strings can contain
  * alphanumeric characters. The range is inclusive of the start and end values.
@@ -38,7 +40,16 @@ export default function fillBlockRange<T extends number | string>(
     for (const [partIndex, fromPart] of fromParts.entries()) {
       // eslint-disable-next-line security/detect-object-injection
       const toPart = toParts[partIndex]
-      ranges.push(fill(fromPart, toPart))
+
+      let range = fill(fromPart, toPart)
+
+      if (alphaNumericRegex.test(fromPart) && alphaNumericRegex.test(toPart)) {
+        range = range.filter((possibleSegment) =>
+          alphaNumericRegex.test(possibleSegment)
+        )
+      }
+
+      ranges.push(range)
     }
 
     const blockArrays = cartesianProduct(ranges)

@@ -1,6 +1,7 @@
 import fill from 'fill-range';
 import cartesianProduct from 'just-cartesian-product';
 const numberRegex = /^\d+$/;
+const alphaNumericRegex = /^[a-z0-9]*$/i;
 export default function fillBlockRange(from, to) {
     if (typeof from === 'number' && typeof to === 'number') {
         return fill(from, to, { step: 1 });
@@ -14,7 +15,11 @@ export default function fillBlockRange(from, to) {
         const ranges = [];
         for (const [partIndex, fromPart] of fromParts.entries()) {
             const toPart = toParts[partIndex];
-            ranges.push(fill(fromPart, toPart));
+            let range = fill(fromPart, toPart);
+            if (alphaNumericRegex.test(fromPart) && alphaNumericRegex.test(toPart)) {
+                range = range.filter((possibleSegment) => alphaNumericRegex.test(possibleSegment));
+            }
+            ranges.push(range);
         }
         const blockArrays = cartesianProduct(ranges);
         const blockArray = blockArrays.map((block) => block.join(''));

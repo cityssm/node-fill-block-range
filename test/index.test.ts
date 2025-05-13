@@ -11,7 +11,8 @@ const rangesToTest = [
   ['A1', 'J10'],
   ['A01', 'A10'],
   ['5A', '8C'],
-  ['AA', 'ZZ']
+  ['AA', 'ZZ'],
+  ['a', '9']
 ]
 
 const errorRangesToTest = [
@@ -37,6 +38,10 @@ await describe('@cityssm/fill-block-range', async () => {
         const result = fillBlockRange(from, to)
         assert.strictEqual(result[0], from)
         assert.strictEqual(result.at(-1), to)
+        
+        for (const block of result) {
+          assert.match(block.toString(), /^[A-Z0-9]+$/i)
+        }
       })
     }
   })
