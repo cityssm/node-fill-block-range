@@ -30,7 +30,32 @@ export default function fillBlockRange<T extends number | string>(
 
     return fill(from, to, { step: 1 })
   } else if (typeof from === 'string' && typeof to === 'string') {
-    /*
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+    return fillStringBlockRange(from, to, options) as T[]
+  }
+
+  throw new TypeError(
+    '"from" and "to" must be numbers or strings, and of the same type.'
+  )
+}
+
+/**
+ * Calculates the length of the cartesian product of the ranges.
+ * @param ranges - An array of ranges, where each range is an array of strings.
+ * @returns The length of the cartesian product of the ranges.
+ */
+export function calculateCartesianProductLength(ranges: string[][]): number {
+  let length = 1
+
+  for (const range of ranges) {
+    length *= Math.max(range.length, 1)
+  }
+
+  return length
+}
+
+function fillStringBlockRange(from: string, to: string, options?: { limit?: number }): string[] {
+  /*
      * If the range bounds are strings, split the strings into parts and
      * generate the range for each part.
      */
@@ -56,18 +81,12 @@ export default function fillBlockRange<T extends number | string>(
         )
       }
 
-      if (options?.limit !== undefined && range.length > options.limit) {
-        throw new RangeError(
-          `Range exceeds limit of ${options.limit} elements.`
-        )
-      }
-
       ranges.push(range)
-    }
 
-    if (options?.limit !== undefined) {
-      const rangeLength = calculateRangeLength(ranges)
-      if (rangeLength > options.limit) {
+      if (
+        options?.limit !== undefined &&
+        calculateCartesianProductLength(ranges) > options.limit
+      ) {
         throw new RangeError(
           `Range exceeds limit of ${options.limit} elements.`
         )
@@ -78,23 +97,7 @@ export default function fillBlockRange<T extends number | string>(
 
     const blockArray = blockArrays.map((block) => block.join(''))
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-    return blockArray as unknown as T[]
-  }
-
-  throw new TypeError(
-    '"from" and "to" must be numbers or strings, and of the same type.'
-  )
-}
-
-function calculateRangeLength(ranges: string[][]): number {
-  let length = 1
-
-  for (const range of ranges) {
-    length *= Math.max(range.length, 1)
-  }
-
-  return length
+    return blockArray
 }
 
 function splitBoundIntoParts(bound: string): string[] {

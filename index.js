@@ -10,41 +10,39 @@ export default function fillBlockRange(from, to, options) {
         return fill(from, to, { step: 1 });
     }
     else if (typeof from === 'string' && typeof to === 'string') {
-        const fromParts = splitBoundIntoParts(from);
-        const toParts = splitBoundIntoParts(to);
-        if (fromParts.length !== toParts.length) {
-            throw new TypeError('Range bounds must have the same number of parts.');
-        }
-        const ranges = [];
-        for (const [partIndex, fromPart] of fromParts.entries()) {
-            const toPart = toParts[partIndex];
-            let range = fill(fromPart, toPart);
-            if (alphaNumericRegex.test(fromPart) && alphaNumericRegex.test(toPart)) {
-                range = range.filter((possibleSegment) => alphaNumericRegex.test(possibleSegment));
-            }
-            if (options?.limit !== undefined && range.length > options.limit) {
-                throw new RangeError(`Range exceeds limit of ${options.limit} elements.`);
-            }
-            ranges.push(range);
-        }
-        if (options?.limit !== undefined) {
-            const rangeLength = calculateRangeLength(ranges);
-            if (rangeLength > options.limit) {
-                throw new RangeError(`Range exceeds limit of ${options.limit} elements.`);
-            }
-        }
-        const blockArrays = cartesianProduct(ranges);
-        const blockArray = blockArrays.map((block) => block.join(''));
-        return blockArray;
+        return fillStringBlockRange(from, to, options);
     }
     throw new TypeError('"from" and "to" must be numbers or strings, and of the same type.');
 }
-function calculateRangeLength(ranges) {
+export function calculateCartesianProductLength(ranges) {
     let length = 1;
     for (const range of ranges) {
         length *= Math.max(range.length, 1);
     }
     return length;
+}
+function fillStringBlockRange(from, to, options) {
+    const fromParts = splitBoundIntoParts(from);
+    const toParts = splitBoundIntoParts(to);
+    if (fromParts.length !== toParts.length) {
+        throw new TypeError('Range bounds must have the same number of parts.');
+    }
+    const ranges = [];
+    for (const [partIndex, fromPart] of fromParts.entries()) {
+        const toPart = toParts[partIndex];
+        let range = fill(fromPart, toPart);
+        if (alphaNumericRegex.test(fromPart) && alphaNumericRegex.test(toPart)) {
+            range = range.filter((possibleSegment) => alphaNumericRegex.test(possibleSegment));
+        }
+        ranges.push(range);
+        if (options?.limit !== undefined &&
+            calculateCartesianProductLength(ranges) > options.limit) {
+            throw new RangeError(`Range exceeds limit of ${options.limit} elements.`);
+        }
+    }
+    const blockArrays = cartesianProduct(ranges);
+    const blockArray = blockArrays.map((block) => block.join(''));
+    return blockArray;
 }
 function splitBoundIntoParts(bound) {
     const parts = [];
