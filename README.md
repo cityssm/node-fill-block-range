@@ -4,6 +4,7 @@
 [![NPM Version](https://img.shields.io/npm/v/%40cityssm%2Ffill-block-range)](https://www.npmjs.com/package/@cityssm/fill-block-range)
 [![DeepSource](https://app.deepsource.com/gh/cityssm/node-fill-block-range.svg/?label=active+issues&show_trend=true&token=Rs2LYe8H3u8yXkNAZfQ9MkT7)](https://app.deepsource.com/gh/cityssm/node-fill-block-range/)
 [![codecov](https://codecov.io/gh/cityssm/node-fill-block-range/graph/badge.svg?token=ZJMRSBF945)](https://codecov.io/gh/cityssm/node-fill-block-range)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=cityssm_node-fill-block-range&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=cityssm_node-fill-block-range)
 
 **Fills in a range of letters, numbers, or "Battleship-like" letter-number combinations.**
 
