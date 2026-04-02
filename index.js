@@ -2,18 +2,36 @@ import fill from 'fill-range';
 import cartesianProduct from 'just-cartesian-product';
 const numberRegex = /^\d+$/;
 const alphaNumericRegex = /^[a-z0-9]*$/i;
+/**
+ * Fills a range of numbers or strings, where the strings can contain
+ * alphanumeric characters. The range is inclusive of the start and end values.
+ * @param from - The start of the range.
+ * @param to - The end of the range.
+ * @param options - Optional options object.
+ * @param options.limit - The maximum number of elements to generate in the range. If the range will generate more than this number of elements, an error will be thrown.
+ * @returns An array of strings or numbers representing the range.
+ */
 export default function fillBlockRange(from, to, options) {
     if (typeof from === 'number' && typeof to === 'number') {
+        /*
+         * If the range bounds are numbers, use fill-range to generate the range.
+         */
         if (options?.limit !== undefined && Math.abs(from - to) > options.limit) {
             throw new RangeError(`Range exceeds limit of ${options.limit} elements.`);
         }
         return fill(from, to, { step: 1 });
     }
     else if (typeof from === 'string' && typeof to === 'string') {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
         return fillStringBlockRange(from, to, options);
     }
     throw new TypeError('"from" and "to" must be numbers or strings, and of the same type.');
 }
+/**
+ * Calculates the length of the cartesian product of the ranges.
+ * @param ranges - An array of ranges, where each range is an array of strings.
+ * @returns The length of the cartesian product of the ranges.
+ */
 export function calculateCartesianProductLength(ranges) {
     let length = 1;
     for (const range of ranges) {
@@ -22,6 +40,10 @@ export function calculateCartesianProductLength(ranges) {
     return length;
 }
 function fillStringBlockRange(from, to, options) {
+    /*
+       * If the range bounds are strings, split the strings into parts and
+       * generate the range for each part.
+       */
     const fromParts = splitBoundIntoParts(from);
     const toParts = splitBoundIntoParts(to);
     if (fromParts.length !== toParts.length) {
@@ -29,6 +51,7 @@ function fillStringBlockRange(from, to, options) {
     }
     const ranges = [];
     for (const [partIndex, fromPart] of fromParts.entries()) {
+        // eslint-disable-next-line security/detect-object-injection
         const toPart = toParts[partIndex];
         let range = fill(fromPart, toPart);
         if (alphaNumericRegex.test(fromPart) && alphaNumericRegex.test(toPart)) {
@@ -48,6 +71,7 @@ function splitBoundIntoParts(bound) {
     const parts = [];
     for (const character of bound) {
         if (numberRegex.test(character)) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             if (parts.length === 0 || !numberRegex.test(parts.at(-1))) {
                 parts.push(character);
             }

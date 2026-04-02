@@ -1,4 +1,3 @@
-// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable max-nested-callbacks */
 
 import assert from 'node:assert'
@@ -51,7 +50,7 @@ await describe('@cityssm/fill-block-range', async () => {
 
   await describe('error range tests', async () => {
     for (const [from, to] of errorRangesToTest) {
-      // eslint-disable-next-line @typescript-eslint/no-base-to-string
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string, no-await-in-loop
       await it(`should throw an error for range from ${from.toString()} to ${to.toString()}`, () => {
         assert.throws(() => {
           const successfulResult = fillBlockRange(from, to)

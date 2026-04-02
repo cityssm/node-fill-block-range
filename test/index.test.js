@@ -1,3 +1,4 @@
+/* eslint-disable max-nested-callbacks */
 import assert from 'node:assert';
 import { describe, it } from 'node:test';
 import fillBlockRange from '../index.js';
@@ -13,11 +14,14 @@ const rangesToTest = [
     ['a', '9']
 ];
 const errorRangesToTest = [
+    // invalid types
     [['x'], 10],
     [1, {}],
+    // different types
     [1, '10'],
     ['1', 10],
     ['01', 10],
+    // different lengths
     ['Z', 'A1'],
     ['A1', 'J'],
     ['A01', 'A'],
@@ -39,9 +43,11 @@ await describe('@cityssm/fill-block-range', async () => {
     });
     await describe('error range tests', async () => {
         for (const [from, to] of errorRangesToTest) {
+            // eslint-disable-next-line @typescript-eslint/no-base-to-string, no-await-in-loop
             await it(`should throw an error for range from ${from.toString()} to ${to.toString()}`, () => {
                 assert.throws(() => {
                     const successfulResult = fillBlockRange(from, to);
+                    // eslint-disable-next-line no-console
                     console.log(successfulResult);
                 }, TypeError);
             });

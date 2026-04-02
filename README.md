@@ -40,5 +40,6 @@ This package is made possible using two amazing packages.
 
 [**Sunrise Cemetery Management System (CMS)**](https://cityssm.github.io/sunrise-cms/)
 
-- A web-based application to assist cemetery managers with managing their cemetery records.
+- A web-based application to assist cemetery managers with managing
+  their cemetery records.
 - Uses `@cityssm/fill-block-range` to quickly generate blocks of burial sites.

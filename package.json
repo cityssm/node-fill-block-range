@@ -1,17 +1,7 @@
 {
   "name": "@cityssm/fill-block-range",
-  "type": "module",
   "version": "0.3.0",
   "description": "Fills in a range of letters, numbers, or \"Battleship-like\" letter-number combinations.",
-  "exports": "./index.js",
-  "scripts": {
-    "test": "node --test",
-    "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary node --test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cityssm/node-fill-block-range.git"
-  },
   "keywords": [
     "fill-range",
     "number-range",
@@ -20,20 +10,36 @@
     "block-range",
     "battleship"
   ],
-  "author": "The Corporation of the City of Sault Ste. Marie",
-  "license": "MIT",
+  "homepage": "https://github.com/cityssm/node-fill-block-range#readme",
   "bugs": {
     "url": "https://github.com/cityssm/node-fill-block-range/issues"
   },
-  "homepage": "https://github.com/cityssm/node-fill-block-range#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cityssm/node-fill-block-range.git"
+  },
+  "license": "MIT",
+  "author": "The Corporation of the City of Sault Ste. Marie",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "index.*"
+  ],
+  "scripts": {
+    "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary node --test",
+    "test": "node --test"
+  },
   "dependencies": {
     "fill-range": "^7.1.1",
     "just-cartesian-product": "^4.2.0"
   },
   "devDependencies": {
     "@types/fill-range": "^7.0.3",
-    "@types/node": "^22.15.17",
-    "eslint-config-cityssm": "^23.0.1",
-    "prettier-config-cityssm": "^1.0.0"
+    "@types/node": "^25.5.0",
+    "eslint-config-cityssm": "^39.0.0",
+    "prettier-config-cityssm": "^2.1.2"
   }
 }
